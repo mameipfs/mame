@@ -10,7 +10,6 @@
 
 #include "emu.h"
 #include "romload.h"
-#include "ipfs.h"
 
 #include "drivenum.h"
 #include "emuopts.h"
@@ -686,14 +685,6 @@ std::unique_ptr<emu_file> rom_load_manager::open_rom_file(const std::vector<std:
 		filerr = result->open(name, crc);
 	else
 		filerr = result->open(name);
-
-	if (filerr && fetch_and_pin_rom_file(machine().options().media_path(), paths)) {
-		// try again 
-		if (has_crc)
-			filerr = result->open(name, crc);
-		else
-			filerr = result->open(name);
-	}
 
 	// don't return anything if unsuccessful
 	if (filerr)
